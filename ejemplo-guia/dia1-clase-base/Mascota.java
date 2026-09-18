@@ -1,0 +1,43 @@
+// Mascota.java
+// Version resuelta del Dia 1 usando el tema "Mascotas".
+public class Mascota {
+
+    private String nombre;
+    private String raza;
+    private int edad;
+
+    public Mascota(String nombre, String raza, int edad) {
+        this.nombre = nombre;
+        this.raza = raza;
+        this.edad = edad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    @Override
+    public String toString() {
+        return "Mascota: " + nombre + " | Raza: " + raza + " | Edad: " + edad + " anios";
+    }
+}

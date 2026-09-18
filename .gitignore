@@ -1,0 +1,9 @@
+# Archivos compilados de Java (se generan al correr javac; no se deben subir)
+*.class
+
+# Carpeta de compilacion usada por el workflow de GitHub Actions
+build/
+
+# Archivos comunes de sistema operativo
+.DS_Store
+Thumbs.db

@@ -1,0 +1,75 @@
+name: Compilar proyecto
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compilar:
+    name: Compilar carpetas dia1 a dia5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compilar cada carpeta del proyecto (dia1 a dia5)
+        shell: bash
+        run: |
+          HUBO_ERROR=0
+          for carpeta in dia1-clase-base dia2-herencia dia3-colecciones dia4-excepciones dia5-integrador; do
+            echo "===================================================="
+            echo "Compilando carpeta: $carpeta"
+            echo "===================================================="
+            if [ ! -d "$carpeta" ]; then
+              echo "AVISO: no existe la carpeta $carpeta"
+              continue
+            fi
+            mkdir -p "build/$carpeta"
+            if javac -encoding UTF-8 -d "build/$carpeta" "$carpeta"/*.java; then
+              echo "OK -> $carpeta compila correctamente"
+            else
+              echo "FALLO -> $carpeta NO compila. Revisa los errores de arriba."
+              HUBO_ERROR=1
+            fi
+          done
+          if [ "$HUBO_ERROR" -eq 1 ]; then
+            echo ""
+            echo "Uno o mas dias no compilaron. Revisa el detalle de arriba."
+            exit 1
+          fi
+          echo ""
+          echo "Todos los dias (dia1 a dia5) compilaron correctamente."
+
+      - name: Compilar ejemplo-guia (version resuelta de referencia)
+        shell: bash
+        run: |
+          HUBO_ERROR=0
+          for carpeta in ejemplo-guia/dia1-clase-base ejemplo-guia/dia2-herencia ejemplo-guia/dia3-colecciones ejemplo-guia/dia4-excepciones ejemplo-guia/dia5-integrador; do
+            echo "===================================================="
+            echo "Compilando carpeta: $carpeta"
+            echo "===================================================="
+            if [ ! -d "$carpeta" ]; then
+              echo "AVISO: no existe la carpeta $carpeta"
+              continue
+            fi
+            mkdir -p "build/$carpeta"
+            if javac -encoding UTF-8 -d "build/$carpeta" "$carpeta"/*.java; then
+              echo "OK -> $carpeta compila correctamente"
+            else
+              echo "FALLO -> $carpeta NO compila. Revisa los errores de arriba."
+              HUBO_ERROR=1
+            fi
+          done
+          if [ "$HUBO_ERROR" -eq 1 ]; then
+            echo ""
+            echo "El ejemplo-guia no compilo correctamente. Revisa el detalle de arriba."
+            exit 1
+          fi
+          echo ""
+          echo "ejemplo-guia compilo correctamente en sus 5 dias."

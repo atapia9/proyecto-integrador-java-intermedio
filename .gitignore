@@ -4,6 +4,12 @@
 # Carpeta de compilacion usada por el workflow de GitHub Actions
 build/
 
+# Salida local del calificador automatico (scripts/calificar.py)
+_site/
+_build_calificar/
+__pycache__/
+*.pyc
+
 # Archivos comunes de sistema operativo
 .DS_Store
 Thumbs.db

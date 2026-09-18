@@ -52,6 +52,10 @@ Al terminar cada día, haz un commit con el mensaje exacto indicado en [docs/COM
 
 100 puntos totales, 20 por día (10 compila + 7 cumple la actividad + 3 commit correcto). Aprobación: 60 puntos. Detalle completo en [docs/RUBRICA.md](docs/RUBRICA.md).
 
+## Calificación automática (feedback inmediato)
+
+Cada push a `main` corre un calificador automático y publica un reporte HTML en GitHub Pages con tu puntaje estimado día por día, contrastado contra la referencia de [ejemplo-guia/](ejemplo-guia/). **Requiere un paso único de tu parte**: activar Pages en Settings → Pages → Source: GitHub Actions. Detalle completo (qué revisa, sus límites, cómo correrlo en tu máquina) en [docs/CALIFICACION-AUTOMATICA.md](docs/CALIFICACION-AUTOMATICA.md). Esto es una evaluación preliminar automática; no sustituye la calificación de tu profesor/a.
+
 ## Estructura del repositorio
 
 ```
@@ -62,7 +66,10 @@ proyecto-integrador-java-intermedio/
 ├── docs/
 │   ├── COMO-ENTREGAR.md
 │   ├── COMPILAR-Y-EJECUTAR.md
-│   └── RUBRICA.md
+│   ├── RUBRICA.md
+│   └── CALIFICACION-AUTOMATICA.md
+├── scripts/
+│   └── calificar.py
 ├── dia1-clase-base/
 ├── dia2-herencia/
 ├── dia3-colecciones/

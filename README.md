@@ -84,3 +84,31 @@ proyecto-integrador-java-intermedio/
 2. Compara tu código con la carpeta equivalente en [ejemplo-guia/](ejemplo-guia/).
 3. Revisa [docs/COMPILAR-Y-EJECUTAR.md](docs/COMPILAR-Y-EJECUTAR.md) si el problema es al compilar.
 4. Pregunta a tu profesor/a o en el foro del curso. **Entregar algo incompleto pero que compile vale más que no entregar nada.**
+
+## Para docentes: cómo está construido
+
+**Problema.** En un curso práctico de POO, cada estudiante necesita saber el mismo día si su entrega compila y cumple lo pedido, y el docente necesita revisar las entregas sin compilarlas todas a mano.
+
+**Solución.** Una plantilla de 5 días con esqueletos que ya compilan y un calificador automático que corre en cada push y publica un reporte con el puntaje estimado.
+
+**Arquitectura.**
+
+```mermaid
+flowchart LR
+    P["push a main"] --> W["workflow calificar.yml<br/>(JDK 17 + Python 3)"]
+    W --> C["scripts/calificar.py"]
+    C --> R["_site/<br/>index.html + reporte.json"]
+    R --> G["GitHub Pages"]
+```
+
+`calificar.py` compila con `javac` la carpeta de cada día y revisa señales estructurales en lugar de comparar texto: que ya no queden `TODO` sin resolver, patrones como `@Override`, `throw new` o `super(`, y la firma del método de la interfaz. El día 5 se prueba de extremo a extremo con una entrada fija de `Scanner`. También busca en el historial de git el commit con el mensaje pedido y corre el mismo cálculo sobre `ejemplo-guia/` para mostrar el contraste. Detalle y límites en [docs/CALIFICACION-AUTOMATICA.md](docs/CALIFICACION-AUTOMATICA.md).
+
+**Stack.** Java 17 (`javac`, sin Maven ni Gradle) · Python 3 (solo biblioteca estándar) · GitHub Actions · GitHub Pages.
+
+**Cómo ejecutarlo en local.** Con Python 3 y el JDK 17 instalados, desde la raíz del repositorio: `python3 scripts/calificar.py`. Genera `_site/index.html` y `_site/reporte.json`.
+
+**Estado.** Versión inicial (2 commits, 17 y 18 de septiembre de 2026). Los workflows `Compilar proyecto` y `Calificar y publicar reporte` terminaron en verde en su última ejecución en `main` (18 de septiembre de 2026). El calificador es una heurística preliminar: puede dar falsos positivos o negativos y no sustituye la revisión del docente.
+
+---
+
+> Este material fue elaborado con asistencia de Claude (Anthropic) y revisado por Jesús Armando Tapia Gallegos.
